@@ -42,8 +42,16 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       },
+      test:{
+        files:[
+          '<%= yeoman.app %>/{,*/}*.html',
+          '{<%= yeoman.tmp %>,<%= yeoman.app %>}/scripts/{,*/}*.js'
+        ],
+        tasks:['test']
+      },
       build:{
         files:[
+          '<%= yeoman.app %>/{,*/}*.html',
           '<%= yeoman.app %>/styles/{,*/}*.less',
           '{<%= yeoman.tmp %>,<%= yeoman.app %>}/scripts/{,*/}*.js'
         ],
