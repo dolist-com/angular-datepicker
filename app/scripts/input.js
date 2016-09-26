@@ -56,7 +56,7 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
         index = views.indexOf(view),
         dismiss = attrs.autoClose ? $parse(attrs.autoClose)(scope) : dateTimeConfig.autoClose,
         picker = null,
-        pickerID = element[0].id,
+        pickerID = attrs.ngId ? $parse(attrs.ngId)(scope) : element[0].id,
         position = attrs.position || dateTimeConfig.position,
         container = null,
         minDate = null,
@@ -128,7 +128,7 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
       }
 
       function getTemplate() {
-        template = dateTimeConfig.template(attrs);
+        template = dateTimeConfig.template(attrs, pickerID);
       }
 
 
@@ -249,6 +249,12 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
 
       element.bind('focus', showPicker);
       element.bind('blur', clear);
+      element.bind('keyup', function(){
+        if(ngModel.$valid){
+          scope.$broadcast('pickerUpdate', pickerID, {value: ngModel.$modelValue});//, {value: scope.fieldModel.Value});
+          scope.$digest();
+        }
+      });
       getTemplate();
     }
   };

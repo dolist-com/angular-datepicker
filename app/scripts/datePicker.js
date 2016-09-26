@@ -150,7 +150,7 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
         datePickerUtils.setParams(tz, firstDay);
 
         if (scope.model && !arrowClick) {
-          scope.date = createMoment(scope.model);
+          scope.date = createMoment(scope.model/*, attrs.format*/);
           arrowClick = false;
         }
 
@@ -345,13 +345,9 @@ Module.directive('datePicker', ['datePickerConfig', 'datePickerUtils', function 
             }
             attrs.view = data.view || attrs.view;
 
-            if (updateViews) {
-              prepareViews();
-            }
+            prepareViews();
 
-            if (updateViewData) {
-              update();
-            }
+            update();
           }
         });
       }
