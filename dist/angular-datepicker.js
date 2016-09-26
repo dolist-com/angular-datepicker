@@ -756,6 +756,7 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
 
       function formatter(value) {
         if (value) {
+          //value = value.replace(/[^0-9\/]/gi, '');
           return dateFilter(value, format, timezone);
         }
       }
@@ -768,6 +769,10 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
         if (parsed.isValid()) {
           return parsed;
         }
+        
+        //viewValue = viewValue.replace(/[^0-9\/]/gi, '');
+        //return parser(viewValue);
+        
       }
 
       function setMin(date) {
@@ -789,6 +794,9 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
         setMin(datePickerUtils.findParam(scope, attrs.minDate));
 
         ngModel.$validators.min = function (value) {
+          if(!value) {
+            return true;
+          }
           //If we don't have a min / max value, then any value is valid.
           return minValid ? moment.isMoment(value) && (minDate.isSame(value) || minDate.isBefore(value)) : true;
         };
@@ -798,6 +806,9 @@ Module.directive('dateTime', ['$compile', '$document', '$filter', 'dateTimeConfi
         setMax(datePickerUtils.findParam(scope, attrs.maxDate));
 
         ngModel.$validators.max = function (value) {
+          if(!value) {
+            return true;
+          }
           return maxValid ? moment.isMoment(value) && (maxDate.isSame(value) || maxDate.isAfter(value)) : true;
         };
       }
